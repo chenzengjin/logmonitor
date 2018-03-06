@@ -37,6 +37,7 @@ public class EmailUtil {
         //发送邮件
         Transport ts = session.getTransport();//得到火箭
         //TODO
+        // 111 222
         ts.connect("zengjin_chen","***");//连接,/应填用户名和授权码
         ts.sendMessage(message, message.getAllRecipients());
 
