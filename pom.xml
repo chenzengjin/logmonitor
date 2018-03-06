@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.czj</groupId>
+  <artifactId>logmonitor</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>logmonitor</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.9</version>
+      <!--<scope>test</scope>-->
+    </dependency>
+
+    <!--连接mysql数据库依赖-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.39</version>
+    </dependency>
+
+
+    <!--操作数据库DButils依赖-->
+    <dependency>
+      <groupId>commons-dbutils</groupId>
+      <artifactId>commons-dbutils</artifactId>
+      <version>1.6</version>
+    </dependency>
+
+    <!--数据库连接池：dbcp,包括了pool-->
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+
+    <!--封装对象:beanutils,包括了logging-->
+    <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.8.3</version>
+    </dependency>
+
+
+    <!--java email依赖-->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+    </dependency>
+
+
+
+    <!--storm依赖-->
+    <dependency>
+      <groupId>org.apache.storm</groupId>
+      <artifactId>storm-core</artifactId>
+      <version>0.9.6</version>
+      <!--集群中已经有jar包环境，故在集群模式运行时候可以为provided，不必打包jar包
+          但是本地模式运行时候需要jar包，故用provided会报错。故要把下面注释掉-->
+      <scope>provided</scope>
+    </dependency>
+
+
+    <!-- kafka依赖-->
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka_2.11</artifactId>
+      <version>0.9.0.1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>jmxtools</artifactId>
+          <groupId>com.sun.jdmk</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jmxri</artifactId>
+          <groupId>com.sun.jmx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jms</artifactId>
+          <groupId>javax.jms</groupId>
+        </exclusion>
+        <!--<exclusion>
+          <groupId>org.apache.zookeeper</groupId>
+          <artifactId>zookeeper</artifactId>
+        </exclusion>-->
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+
+    <!--storm内使用KafkaSpout类-->
+    <dependency>
+      <groupId>org.apache.storm</groupId>
+      <artifactId>storm-kafka</artifactId>
+      <version>0.9.5</version>
+      <!-- <scope>compile</scope>-->
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+  </dependencies>
+
+
+
+  <!--打包时加入依赖包-->
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+
+          <archive>
+            <manifest>
+              <mainClass>cn.itcast.bigdata.hadoop.mapreduce.wordcount.WordCount</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+
+
+    </plugins>
+  </build>
+
+
+</project>
