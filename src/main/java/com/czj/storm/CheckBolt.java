@@ -52,12 +52,24 @@ public class CheckBolt extends BaseRichBolt {
                             if(user.getIsValid().equals("1")){
                                 //该人有效，发送邮件
                                 //拼凑邮件内容
-                                String content = user.getName()+",您好！  系统【"+app.getName()+"】触发了报警【"+rule.getName()+"】，触发关键字为：【"+rule.getKeyword()+"】。报警信息：【"+logLine+"】。  所在日志路径：【"+app.getLogpath()+"】，请尽快处理！";
+                                //String content = user.getName()+",您好！  系统【"+app.getName()+"】触发了报警【"+rule.getName()+"】，触发关键字为：【"+rule.getKeyword()+"】。报警信息：【"+logLine+"】。  所在日志路径：【"+app.getLogpath()+"】，请尽快处理！";
+                                StringBuilder content = new StringBuilder(user.getName())
+                                        .append(",您好！  系统【")
+                                        .append(app.getName())
+                                        .append("】触发了报警【")
+                                        .append(rule.getName())
+                                        .append("】，触发关键字为：【")
+                                        .append(rule.getKeyword())
+                                        .append("】。报警信息：【")
+                                        .append(logLine)
+                                        .append("】。  所在日志路径：【")
+                                        .append(app.getLogpath())
+                                        .append("】，请尽快处理！");
                                 //发送邮件
-                                System.out.println("发邮件前：---"+user.getEmail()+"----"+content);
-                                EmailUtil.sendEmail(user.getEmail(),content);
+                                //System.out.println("发邮件前：---"+user.getEmail()+"----"+content);
+                                EmailUtil.sendEmail(user.getEmail(),content.toString());
                                 //往数据库中记录报警信息。
-                                RuleUtil.addRecord(content,appId,rule.getId());
+                                RuleUtil.addRecord(content.toString(),appId,rule.getId());
                             }
                         }
                     }
@@ -70,14 +82,14 @@ public class CheckBolt extends BaseRichBolt {
         }
 
     }
-    @Test
+   /* @Test
     public void t2(){
 
-       /* CheckBolt c = new CheckBolt();
+       *//* CheckBolt c = new CheckBolt();
         String a="abcdef";
         String b="";
         String c=a+b;
-        System.out.print(c=="abcdef");*/
+        System.out.print(c=="abcdef");*//*
         int a1=1;
 
         int b1=1;
@@ -107,7 +119,7 @@ public class CheckBolt extends BaseRichBolt {
         System.out.println(c==d);   //true  结果3
 
         System.out.println(e==f);   //false  结果4
-    }
+    }*/
    /* @Test
     public void testRuleUtil(){
         HashMap<Integer, List<String>> map = RuleUtil.getMap();

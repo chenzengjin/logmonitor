@@ -4,6 +4,7 @@ import com.czj.dao.AllDao;
 import com.czj.domain.App;
 import com.czj.domain.Rule;
 import com.czj.domain.User;
+import com.czj.utils.ConstantClass;
 import jline.internal.TestAccessible;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class AllService{
      */
     public boolean isMonitor(int appId) {
         String v = dao.idAppValid(appId);
-        if("1".equals(v)){
+        if(ConstantClass.VALID.equals(v)){
             return true;
         }else{
             return false;
@@ -80,7 +81,7 @@ public class AllService{
         for(Object[] objs : list){
 
             //取出userId串，切割成userId数组
-            String[] userIds = ((String)objs[1]).split(",");
+            String[] userIds = ((String)objs[1]).split(ConstantClass.SPLIT_USERID);
             //遍历封装User对象
             userList.clear();
             for(String userId : userIds){
@@ -108,7 +109,7 @@ public class AllService{
     }
 
     public void addRecord(String content, int appId, int id) {
-        dao.addRecord(new Date(),content, appId, id,"1");
+        dao.addRecord(new Date(),content, appId, id,ConstantClass.VALID);
     }
 
 

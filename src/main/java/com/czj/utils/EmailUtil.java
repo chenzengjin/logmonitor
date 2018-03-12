@@ -13,11 +13,6 @@ import java.util.Properties;
  */
 public class EmailUtil {
 
-    //发件人账号
-    static private String sendEmail = "zengjin_chen@163.com";
-    static private String emailSubject = "日志监控系统报警！";
-
-
     static public void sendEmail(String userEmail,String content) throws MessagingException {
         Properties props = new Properties();//环境变量设置。发送邮件时才需要
         props.setProperty("mail.transport.protocol", "smtp");//发送使用的协议
@@ -27,9 +22,9 @@ public class EmailUtil {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);//代表一封邮件
 
-        message.setFrom(new InternetAddress(sendEmail));//设置发件人
+        message.setFrom(new InternetAddress(ConstantClass.EMAIL_SENDER));//设置发件人
         message.setRecipients(Message.RecipientType.TO, userEmail);//设置收件人
-        message.setSubject(emailSubject);//设置主题
+        message.setSubject(ConstantClass.EMAIL_SUBJECT);//设置主题
 
         //设置邮件的正文内容
         message.setText(content);
@@ -38,7 +33,7 @@ public class EmailUtil {
         Transport ts = session.getTransport();//得到火箭
         //TODO
         // 111 222
-        ts.connect("zengjin_chen","***");//连接,/应填用户名和授权码
+        ts.connect(ConstantClass.EMAIL_CONN_NAME,ConstantClass.EMAIL_CONN_CODE);//连接,/应填用户名和授权码
         ts.sendMessage(message, message.getAllRecipients());
 
         ts.close();

@@ -7,6 +7,7 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import com.czj.utils.ConstantClass;
 import com.czj.utils.RuleUtil;
 
 import java.util.Map;
@@ -36,7 +37,7 @@ public class FilterBolt extends BaseRichBolt {
 
 
             //获取应用id
-            String[] strings = logLine.split(":::");
+            String[] strings = logLine.split(ConstantClass.SPLIT_LOG_LINE);
             int appId = Integer.parseInt(strings[0]);
             System.out.println("appid-----------------------------"+appId+"----------------------------------------------------");
 
