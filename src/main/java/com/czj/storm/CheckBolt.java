@@ -31,7 +31,7 @@ public class CheckBolt extends BaseRichBolt {
     @Override
     public void execute(Tuple input) {
         try {
-            String logLine = input.getString(0);
+            String logInfo = input.getString(0);
             int appId = input.getInteger(1);
 
             //获取规则keyWord列表
@@ -40,7 +40,7 @@ public class CheckBolt extends BaseRichBolt {
 
             //判断是否触发了报警规则
             for(Rule rule : ruleList){
-                if(logLine.toLowerCase().contains(rule.getKeyword())){
+                if(logInfo.toLowerCase().contains(rule.getKeyword())){
                     //符合规则，发送邮件报警。需要准备收件人和邮件内容
                     //1. 获取相关信息
                      App app = RuleUtil.getAppByAppId(appId);
@@ -61,7 +61,7 @@ public class CheckBolt extends BaseRichBolt {
                                         .append("】，触发关键字为：【")
                                         .append(rule.getKeyword())
                                         .append("】。报警信息：【")
-                                        .append(logLine)
+                                        .append(logInfo)
                                         .append("】。  所在日志路径：【")
                                         .append(app.getLogpath())
                                         .append("】，请尽快处理！");
@@ -129,7 +129,7 @@ public class CheckBolt extends BaseRichBolt {
         System.out.println(app);
     }*/
 
-   /*@Test
+  /* @Test
    public void testExecute(){
        int i = 2;
        while(i>0){
@@ -161,7 +161,7 @@ public class CheckBolt extends BaseRichBolt {
                                    System.out.println("发邮件前：---"+user.getEmail()+"----"+content);
                                    EmailUtil.sendEmail(user.getEmail(),content);
                                    //往数据库中记录报警信息。
-                                   service.addRecord(content,appId,rule.getId());
+                                   //service.addRecord(content,appId,rule.getId());
                                }
                            }
                        }
