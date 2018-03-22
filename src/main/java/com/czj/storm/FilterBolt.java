@@ -52,22 +52,22 @@ public class FilterBolt extends BaseRichBolt {
             }
             if(st.hasMoreTokens()){
                 logInfo = st.nextToken();
-                System.out.println("loginfo----------------"+logInfo+"-----------------");
+                //System.out.println("loginfo----------------"+logInfo+"-----------------");
             }else{
                 throw new RuntimeException("没有截取到日志行信息");
             }
 
 
             //判断该应用shi是否需要监控
-            System.out.println("------["+RuleUtil.isContainAppId(appId)+"]");
+            //System.out.println("------["+RuleUtil.isContainAppId(appId)+"]");
             if(RuleUtil.isContainAppId(appId)){
                 ///需要监控,发送给CheckBolt，带上应用id
-                System.out.println("iiiii");
+               //System.out.println("iiiii");
                 collector.emit(new Values(logInfo,appId));
 
             }else{
                 //不需要监控
-                System.out.println("nnnnnn");
+                //System.out.println("nnnnnn");
             }
             //kafkaSpout已经启用ack-fail机制的，不加此句会一直重发
             collector.ack(input);

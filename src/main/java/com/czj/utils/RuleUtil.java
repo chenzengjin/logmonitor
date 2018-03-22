@@ -73,8 +73,8 @@ public class RuleUtil {
     }
 
     static public boolean isContainAppId(int appId){
-        System.out.println("ppppppppppppp"+ruleMap);
-        System.out.println(ruleMap.get(appId));
+//        System.out.println("ppppppppppppp"+ruleMap);
+//        System.out.println(ruleMap.get(appId));
         return ruleMap.containsKey(appId);
     }
 
