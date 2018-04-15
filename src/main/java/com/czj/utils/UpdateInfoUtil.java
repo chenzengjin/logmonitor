@@ -16,7 +16,9 @@ public class UpdateInfoUtil{
 
     static public void timerUpdateInfoFromMysql(int seconds){
         timer = new Timer();
-        timer.scheduleAtFixedRate(new MysqlTimerTask(),0,seconds*1000);  //一分钟从数据库更新一次
+        //timer.scheduleAtFixedRate(new MysqlTimerTask(),0,seconds*1000);  //一分钟从数据库更新一次
+        //不必使用追赶特性
+        timer.schedule(new MysqlTimerTask(),0,seconds*1000);  //一分钟从数据库更新一次
     }
 
     /*@Override

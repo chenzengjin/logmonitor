@@ -2,7 +2,9 @@ package com.czj.storm;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
+import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
+import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
@@ -16,9 +18,12 @@ import java.util.StringTokenizer;
 /**
  * Created by 11273 on 2018-2-26.
  */
+
 public class FilterBolt extends BaseRichBolt {
-    OutputCollector collector = null;
+    private OutputCollector collector = null;
     //AllService service = new AllService();
+    private Values v = new Values();
+
     @Override
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
@@ -58,17 +63,27 @@ public class FilterBolt extends BaseRichBolt {
             }
 
 
-            //判断该应用shi是否需要监控
+            //判断该应用是否需要监控
             //System.out.println("------["+RuleUtil.isContainAppId(appId)+"]");
-            if(RuleUtil.isContainAppId(appId)){
-                ///需要监控,发送给CheckBolt，带上应用id
-               //System.out.println("iiiii");
-                collector.emit(new Values(logInfo,appId));
+            //TODO
+//            if(RuleUtil.isContainAppId(appId) &&RuleUtil.isVaildFromAppId(appId)){
+            if(RuleUtil.isVaildFromAppId(appId) && RuleUtil.isContainAppId(appId)){
+                //该应用是有效的，并且有对应的规则，则表示需要监控,发送给CheckBolt，带上应用id
+                //System.out.println("iiiii");
 
-            }else{
+                //collector.emit(new Values(logInfo,appId));
+                v.clear();
+                v.add(0,logInfo);
+                v.add(1,appId);
+
+                //TODO
+                collector.emit(input,v);
+
+            }/*else{
                 //不需要监控
                 //System.out.println("nnnnnn");
-            }
+            }*/
+
             //kafkaSpout已经启用ack-fail机制的，不加此句会一直重发
             collector.ack(input);
         }catch (Exception e){
@@ -83,3 +98,4 @@ public class FilterBolt extends BaseRichBolt {
         declarer.declare(new Fields("logLine","appId"));
     }
 }
+

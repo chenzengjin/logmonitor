@@ -94,6 +94,10 @@ public class AllDao {
     }
 
 
+    /**
+     * 获取所有app列表
+     * @return
+     */
     public List<App> getAllApps() {
         String sql = "select * from app";
         List<App> appList = null;
